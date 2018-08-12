@@ -1,0 +1,4 @@
+{application, r3erlang, [
+    {description, "Rebar3 plugin to make an Erlang release"},
+    {vsn, "0.1.0"}
+]}.
