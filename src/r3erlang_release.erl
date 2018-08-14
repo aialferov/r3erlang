@@ -9,6 +9,8 @@
     erts_version/0
 ]).
 
+-include("r3erlang_makefile.hrl").
+
 make(AppName, AppsDir, OutDir) ->
     ErlangApps = erlang_apps(AppName, AppsDir),
     make_release("erlang", erlang_version(), ErlangApps, OutDir).
@@ -32,19 +34,15 @@ make_release(Name, Version, Apps, OutDir) ->
     [file:copy(Name ++ ".boot", path(["bin", File])) ||
      File <- ["start.boot", "no_dot_erlang.boot"]],
 
-    {ok, ErtsFiles} = file:list_dir(path(["erts-" ++ erts_version(), "bin"])),
-    lists:foreach(fun(File) ->
-        Target = path(["..", "erts-" ++ erts_version(), "bin", File]),
-        Link = path(["bin", File]),
-        file:delete(Link),
-        ok = file:make_symlink(Target, Link)
-    end, ErtsFiles),
+    ok = file:write_file("Makefile", io_lib:format(?Makefile, [])),
 
-    ok = file:delete(path(["releases", erlang_version(), Name ++ ".rel"])),
-    ok = file:delete(path(["releases", Name ++ ".rel"])),
-    ok = file:delete(path(["releases", erlang_version(), "start.boot"])),
-    ok = file:del_dir(path(["releases", erlang_version()])),
-    ok = file:del_dir(path(["releases"])),
+    %{ok, ErtsFiles} = file:list_dir(path(["erts-" ++ erts_version(), "bin"])),
+    %lists:foreach(fun(File) ->
+    %    Target = path(["..", "erts-" ++ erts_version(), "bin", File]),
+    %    Link = path(["bin", File]),
+    %    file:delete(Link),
+    %    ok = file:make_symlink(Target, Link)
+    %end, ErtsFiles),
 
     lists:foreach(fun file:delete/1, filelib:wildcard(Name ++ ".*")).
 
@@ -88,3 +86,14 @@ read_otp_release_file(FileName) ->
     binary_to_list(Binary).
 
 path(PathList) -> filename:join(PathList).
+ 
+%del_dir_r(Dir) ->
+%    Paths = filelib:wildcard(Dir ++ "/**"),
+%    case lists:partition(fun filelib:is_dir/1, Paths) of
+%        {Dirs, Files} ->
+%            io:format("Deleting ~s~n", [Dir]),
+%            lists:foreach(fun file:delete/1, Files),
+%            lists:foreach(fun file:del_dir/1, lists:reverse(lists:sort(Dirs))),
+%            file:del_dir(Dir);
+%        [] -> ok
+%    end.
