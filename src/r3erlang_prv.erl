@@ -47,4 +47,4 @@ app_name(State) ->
     binary_to_atom(rebar_app_info:name(App), utf8).
 
 apps_dir(State) -> rebar_dir:deps_dir(State).
-erlang_dir(State) -> filename:join(rebar_dir:base_dir(State), "erlang").
+erlang_dir(State) -> filename:join(rebar_dir:base_dir(State), "erl").
