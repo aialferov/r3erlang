@@ -32,7 +32,7 @@ make_release(Name, Version, Apps, OutDir) ->
 
     ok = filelib:ensure_dir("bin/"),
     [file:copy(Name ++ ".boot", path(["bin", File])) ||
-     File <- ["start.boot", "no_dot_erlang.boot"]],
+     File <- ["start.boot", "start_clean.boot", "no_dot_erlang.boot"]],
 
     ok = file:write_file("Makefile", io_lib:format(?Makefile, [])),
 
