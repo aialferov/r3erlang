@@ -36,13 +36,11 @@ make_release(Name, Version, Apps, OutDir) ->
 
     ok = file:write_file("Makefile", io_lib:format(?Makefile, [])),
 
-    %{ok, ErtsFiles} = file:list_dir(path(["erts-" ++ erts_version(), "bin"])),
-    %lists:foreach(fun(File) ->
-    %    Target = path(["..", "erts-" ++ erts_version(), "bin", File]),
-    %    Link = path(["bin", File]),
-    %    file:delete(Link),
-    %    ok = file:make_symlink(Target, Link)
-    %end, ErtsFiles),
+    ok = file:delete(path(["releases", erlang_version(), Name ++ ".rel"])),
+    ok = file:delete(path(["releases", Name ++ ".rel"])),
+    ok = file:delete(path(["releases", erlang_version(), "start.boot"])),
+    ok = file:del_dir(path(["releases", erlang_version()])),
+    ok = file:del_dir(path(["releases"])),
 
     lists:foreach(fun file:delete/1, filelib:wildcard(Name ++ ".*")).
 
