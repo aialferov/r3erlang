@@ -9,8 +9,8 @@ A [Rebar3 Plugin] for creating [Erlang] release for [Escriptized] application.
 The [Rebar3 Releases] feature prepares a normal Erlang release with all needed
 beam files and Erlang runtime included. In case of escriptized application
 all the external dependencies are usually baked into the binary and not needed
-to be of the release itself. This plugin prepares an Erlang release without
-those dependencies assuming they are part of the executable.
+to be a part of the release itself. This plugin prepares an Erlang release
+without those dependencies assuming they are part of the executable.
 
 In addition a handy Makefile is generated for easier installation.
 
