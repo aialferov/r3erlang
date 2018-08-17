@@ -1,3 +1,67 @@
 # Rebar3 Erlang
 
-A [Rebar3] plugin for creating [Erlang] release for escriptized application.
+[![License: MIT][MIT badge]][MIT]
+
+A [Rebar3 Plugin] for creating [Erlang] release for [Escriptized] application.
+
+## Overview
+
+The [Rebar3 Releases] feature prepares a normal Erlang release with all needed
+beam files and Erlang runtime included. In case of escriptized application
+all the external dependencies are usually baked into the binary and not needed
+to be of the release itself. This plugin prepares an Erlang release without
+those dependencies assuming they are part of the executable.
+
+In addition a handy Makefile is generated for easier installation.
+
+## Usage
+
+Specify the plugin in your "rebar.config" file:
+
+```
+{plugins, [
+    {r3erlang,
+     {git, "https://github.com/aialferov/r3erlang", {branch, "master"}}}
+]}.
+```
+
+Build you application and run the following command:
+
+```
+$ rebar3 erlang
+```
+
+Find the Erlang release in a profile directory. By default:
+
+```
+$ cd _build/default/erl
+```
+
+You can install this release using a [Make] target:
+
+```
+$ make install
+```
+
+The installation directories used are the following:
+
+```
+$(DEST_DIR)/$(PREFIX)/lib/erlang
+$(DEST_DIR)/$(PREFIX)/bin
+```
+
+Default values for the variables:
+
+* DEST_DIR — ""
+* PREFIX — "usr/local"
+
+<!-- Links -->
+[MIT]: https://opensource.org/licenses/MIT
+[Make]: https://www.gnu.org/software/make
+[Erlang]: http://erlang.org
+[Rebar3 Plugin]: https://www.rebar3.org/docs/using-available-plugins
+[Rebar3 Releases]: https://www.rebar3.org/docs/releases
+[Escriptized]: https://www.rebar3.org/docs/commands#section-escriptize
+
+<!-- Badges -->
+[MIT badge]: https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square
