@@ -46,14 +46,13 @@ $ make install
 The installation directories used are the following:
 
 ```
-$(DEST_DIR)/$(PREFIX)/lib/erlang
-$(DEST_DIR)/$(PREFIX)/bin
+$(DESTDIR)/$(PREFIX)/lib/erlang
+$(DESTDIR)/$(PREFIX)/bin
 ```
 
-Default values for the variables:
-
-* DEST_DIR — ""
-* PREFIX — "usr/local"
+To change the target installation directory use "PREFIX" (default: "usr/local").
+To prepare local installation for packaging and further redistribution use
+"DESTDIR". In final installations "DESTDIR" should always be empty.
 
 <!-- Links -->
 [MIT]: https://opensource.org/licenses/MIT
