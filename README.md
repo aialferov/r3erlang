@@ -1,6 +1,7 @@
 # Rebar3 Erlang
 
-[![License: MIT][MIT badge]][MIT]
+[![License: MIT][MIT Badge]][MIT]
+[![GitHub Release Badge]][GitHub Releases]
 
 A [Rebar3 Plugin] for creating [Erlang] release for [Escriptized] application.
 
@@ -56,6 +57,7 @@ To prepare local installation for packaging and further redistribution use
 
 <!-- Links -->
 [MIT]: https://opensource.org/licenses/MIT
+[GitHub Releases]: https://github.com/aialferov/r3erlang/releases
 [Make]: https://www.gnu.org/software/make
 [Erlang]: http://erlang.org
 [Rebar3 Plugin]: https://www.rebar3.org/docs/using-available-plugins
@@ -63,4 +65,5 @@ To prepare local installation for packaging and further redistribution use
 [Escriptized]: https://www.rebar3.org/docs/commands#section-escriptize
 
 <!-- Badges -->
-[MIT badge]: https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square
+[MIT Badge]: https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square
+[GitHub Release Badge]: https://img.shields.io/github/release/aialferov/r3erlang/all.svg?style=flat-square
