@@ -22,9 +22,13 @@ make_release(Name, Version, Apps, OutDir) ->
     ok = filelib:ensure_dir(OutDir ++ "/"),
     ok = file:set_cwd(OutDir),
 
+    IsOldErlang = is_old_erlang(),
+    TarOpts = if IsOldErlang -> [{erts, code:root_dir()}];
+              not IsOldErlang -> [no_warn_sasl, {erts, code:root_dir()}] end,
+
     ok = file:write_file(Name ++ ".rel", ReleaseContent),
     ok = systools:make_script(Name, [no_warn_sasl]),
-    ok = systools:make_tar(Name, [no_warn_sasl, {erts, code:root_dir()}]),
+    ok = systools:make_tar(Name, TarOpts),
 
     {ok, TarFiles} = erl_tar:table(Name ++ ".tar.gz", [compressed]),
     lists:foreach(fun file:delete/1, TarFiles),
@@ -69,12 +73,12 @@ is_app_local(AppName, AppsDir) ->
     filelib:is_dir(path([AppsDir, AppName])).
 
 erlang_version() ->
-    string:trim(read_otp_release_file("OTP_VERSION")).
+    lists:droplast(read_otp_release_file("OTP_VERSION")).
 
 erts_version() ->
     VersionsContent = read_otp_release_file("installed_application_versions"),
-    Versions = [list_to_tuple(string:split(VersionContent, "-")) ||
-                VersionContent <- string:split(VersionsContent, "\n", all)],
+    Versions = [list_to_tuple(string_split(VersionContent, "-")) ||
+                VersionContent <- string_split(VersionsContent, "\n")],
     proplists:get_value("erts", Versions).
 
 read_otp_release_file(FileName) ->
@@ -84,6 +88,14 @@ read_otp_release_file(FileName) ->
     binary_to_list(Binary).
 
 path(PathList) -> filename:join(PathList).
+
+string_split(String, Separators) ->
+    IsOldErlang = is_old_erlang(),
+    if IsOldErlang -> string:tokens(String, Separators);
+    not IsOldErlang -> string:split(String, Separators, all) end.
+
+is_old_erlang() ->
+    list_to_integer(erlang:system_info(otp_release)) < 20.
  
 %del_dir_r(Dir) ->
 %    Paths = filelib:wildcard(Dir ++ "/**"),
