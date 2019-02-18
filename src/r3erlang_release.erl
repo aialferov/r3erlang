@@ -23,8 +23,9 @@ make_release(Name, Version, Apps, OutDir) ->
     ok = file:set_cwd(OutDir),
 
     IsOldErlang = is_old_erlang(),
-    TarOpts = if IsOldErlang -> [{erts, code:root_dir()}];
-              not IsOldErlang -> [no_warn_sasl, {erts, code:root_dir()}] end,
+    TarOptsAll = [{erts, code:root_dir()}, {dirs, [include]}],
+    TarOpts = if IsOldErlang -> TarOptsAll;
+             not IsOldErlang -> [no_warn_sasl|TarOptsAll] end,
 
     ok = file:write_file(Name ++ ".rel", ReleaseContent),
     ok = systools:make_script(Name, [no_warn_sasl]),
